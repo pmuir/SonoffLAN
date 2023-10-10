@@ -28,6 +28,24 @@ class XSwitch(XEntity, SwitchEntity):
     async def async_turn_off(self):
         await self.ewelink.send(self.device, {"switch": "off"})
 
+# noinspection PyAbstractClass
+class XSwitch(XEntity, SwitchEntity):
+    params = {"key"}
+
+    def set_state(self, params: dict):
+        data = {
+            "command": int(child.channel),
+            "name": child.name,
+            "entity_id": self.entity_id,
+            "ts": ts,
+        }
+        self.hass.bus.async_fire("sonoff.key", data)
+
+    async def async_turn_on(self, **kwargs):
+        #await self.ewelink.send(self.device, {"switch": "on"})
+
+    async def async_turn_off(self):
+        #await self.ewelink.send(self.device, {"switch": "off"})
 
 # noinspection PyAbstractClass
 class XSwitches(XEntity, SwitchEntity):
